@@ -1,0 +1,72 @@
+//归并，分治
+void merge(int a[], int b, int m, int e,int d[]){
+
+	int i = b;
+	int j = m + 1;
+	int k = 0;
+	while (i<=m && j<=e)//将排好序的a数组中的值填入d数组
+	{
+		if (a[i] >a[j])d[k++] = a[j++];
+		else d[k++] = a[i++];
+	}
+	while(i<=m)d[k++] = a[i++];//左半边还有则补在后面
+	while(j<=e)d[k++] = a[j++];
+	for (int i = 0; i < 1 + e - b; ++i)
+		a[b + i] = d[i];//将辅助数组拷贝回原数组
+}
+//归并排序
+void mergesort(int a[], int b, int e,int d[]){
+	//static int cnt = 1;
+	if (b < e){
+		int m = (b + e) >> 1;
+		mergesort(a, b,m, d);
+		mergesort(a, m+1, e, d);
+		merge(a, b, m, e, d);
+	}
+	//cout << cnt++ << endl;//看看调用了多少次mergesort
+}
+
+
+int  main(){
+	//int n;
+	int a[20];
+	int b[20];
+	int t;
+	int i = 0;
+
+	while (cin>>t&&i<2o)
+	{
+		a[i++] = s;
+
+	}
+	cout << endl;
+	mergesort(a,0,i-1,b);
+	for (int j = 0; j < i; ++j)
+	cout << a[j]<<" ";
+	system("pause");
+}
+
+
+
+
+
+
+//非递归版本，将a中相邻长度为s的子序列两两归并
+void merge_pass(int* a, int* temp, int s, int len){
+	int i = 0;
+	int j;
+	while (i < len - 2 * s + 1){
+		merge(a, temp, i, i + s - 1, i + 2 * s - 1);
+		i += 2 * s;
+	}
+	if (i < len - s + 1)//归并最后两个序列
+		merge(a, temp, i, i + s - 1, len); 
+}
+void merge_sort_no_recurse(int* a, int len){
+	int temp[1001];
+	int k = 1;
+	while (k <= len){
+		merge_pass(a, temp, k, len);
+		k *= 2; //子序列长度加倍
+	}
+}
