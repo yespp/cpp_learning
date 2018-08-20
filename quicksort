@@ -1,0 +1,51 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+//挖坑法
+void quicksort1(int v[], int b, int e) {
+	if (e <= b) return;
+	int i = b, j = e;
+	int t = v[b];
+	while (i < j)
+	{
+		while (v[j] >= t&&i < j) j--;
+		if (i<j)v[i++]=v[j];
+		while (v[i]<=t&&i <j)i++;
+		if (i<j)v[j--] = v[i];
+	}
+	v[i] = t;
+	quicksort1(v, b, i-1);
+	quicksort1(v, i + 1, e);
+}
+//左右指针法
+void quicksort2(int v[], int b, int e) {
+	if (e <= b) return;
+	int i = b, j = e;
+	int t = v[b];
+	while (i < j)
+	{
+		while (v[j] >= t&&i < j) j--;
+		while (v[i] <= t&&i <j)i++;
+		if (i < j)swap(v[j], v[i]);
+	}
+	v[b] = v[i];
+	v[i] = t;
+	quicksort2(v, b, i - 1);
+	quicksort2(v, i + 1, e);
+}
+int main(){
+	int v1[16] = { 1, 2, 3, 9, 8, 7,6 ,12,1,13,99,8,0,6,5,13};
+	quicksort1(v1, 0, 15);
+	int v2[16] = { 1, 2, 3, 9, 8, 7, 6, 12, 1, 13, 99, 8, 0, 6, 5, 13 };
+	quicksort1(v2, 0, 15);
+
+	for (int i = 0; i < 16; ++i) 
+		cout << v1[i] << " ";
+	cout << endl;
+	for (int i = 0; i < 16; ++i)
+		cout << v2[i] << " ";
+
+	system("pause");
+}
